@@ -1,0 +1,16 @@
+import express from "express";
+import LivroController from "../controllers/livrosController.js";
+
+const livros = express.Router();
+
+livros.get("/livros", LivroController.listarLivros);
+
+livros.get("/livros/:id", LivroController.listarLivroPorId);
+
+livros.post("/livros", LivroController.cadastrarLivro);
+
+livros.put("/livros/:id", LivroController.atualizarLivro);
+
+livros.delete("/livros/:id", LivroController.deletarLivro);
+
+export default livros;

@@ -3,7 +3,7 @@ import livros from "../models/Livros.js";
 class LivroController {
   static listarLivros = async (req, res) => {
     try {
-      const data = await livros.find();
+      const data = await livros.find().populate("autor");
       res.status(200).json(data);
     } catch (err) {
       res.status(500).send({ message: `Erro ao consultar livros: ${err.message}` });
@@ -13,10 +13,20 @@ class LivroController {
   static listarLivroPorId = async (req, res) => {
     try {
       const id = req.params.id;
-      const data = await livros.findById(id);
+      const data = await livros.findById(id).populate("autor", "nome");
       res.status(200).json(data);
     } catch (err) {
       res.status(400).send({ message: `Erro ao consultar livro: ${err.message}` });
+    }
+  };
+
+  static listarLivrosPorEditora = async (req, res) => {
+    try {
+      const editora = req.query.editora;
+      const data = await livros.find({ editora: editora });
+      res.status(200).json(data);
+    } catch (err) {
+      res.status(500).send({ message: `Erro ao consultar livros: ${err.message}` });
     }
   };
 
